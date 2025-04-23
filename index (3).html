@@ -1,0 +1,143 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRADAR MODS HACK </title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+    :root {
+        --primary: #3a1b6e;
+        --primary-light: #5d2d9e;
+        --secondary: #00a8e8;
+        --big-color: #ff9f1c;
+        --small-color: #4cc9f0;
+        --danger: #ff3860;
+        --warning: #ffb703;
+        --dark: #121212;
+        --darker: #0a0a0a;
+        --light: #e0e0e0;
+        --lighter: #ffffff;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background: var(--darker); min-height:100vh; display:flex; align-items:center; justify-content:center; font-family:'Poppins',sans-serif; color:var(--lighter); }
+    /* Login Container */
+    #loginContainer { background:rgba(18,18,18,0.95); padding:30px; border-radius:12px; text-align:center; width:300px; }
+    #loginContainer h2 { margin-bottom:20px; font-family:'Orbitron',sans-serif; }
+    #loginContainer input { width:100%; padding:10px; border:1px solid var(--primary-light); border-radius:8px; margin-bottom:15px; background:rgba(0,0,0,0.3); color:#fff; }
+    #loginContainer button { width:100%; padding:12px; border:none; border-radius:8px; background:var(--secondary); color:#000; font-weight:600; cursor:pointer; }
+    #loginError { color: var(--danger); margin-top:10px; opacity:0; transition:opacity 0.3s; }
+    /* Main Container hidden initially */
+    #mainContainer { display:none; }
+    /* Existing styles from JalwaWin hack... */
+    .container { width:100%; max-width:450px; background:rgba(18,18,18,0.95); border-radius:20px; padding:25px; margin-bottom:20px; border:1px solid var(--primary-light); position:relative; overflow:hidden; box-shadow:0 0 20px rgba(93,45,158,0.2); }
+    .winner-container{ text-align:center; padding:15px; background:rgba(93,45,158,0.1); border-radius:12px; margin-bottom:18px; border:1px solid var(--primary-light); position:relative; overflow:hidden; }
+    .winner-container::after{ content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(93,45,158,0.2),transparent); transition:left 0.8s ease-out; }
+    .winner-container:hover::after{ left:100%; }
+    .winner-text{ font-size:15px; font-weight:500; color:var(--light); letter-spacing:0.5px; }
+    .online-users{ text-align:center; padding:12px; background:rgba(0,168,232,0.1); border-radius:12px; margin-bottom:25px; font-size:14px; color:var(--secondary); border:1px solid var(--secondary); display:flex; align-items:center; justify-content:center; transition:box-shadow 0.3s; }
+    .online-users:hover{ box-shadow:0 0 15px rgba(0,168,232,0.3); }
+    .online-users i{ margin-right:8px; font-size:12px; }
+    .game-header{ display:flex; align-items:center; margin-bottom:25px; padding-bottom:18px; border-bottom:1px solid rgba(93,45,158,0.3); }
+    .game-logo{ width:60px; height:60px; border-radius:15px; margin-right:18px; background:linear-gradient(135deg,var(--primary),var(--primary-light)); display:flex; align-items:center; justify-content:center; overflow:hidden; border:2px solid var(--primary-light); box-shadow:0 0 15px rgba(93,45,158,0.3); }
+    .game-logo img{ width:100%; height:100%; object-fit:cover; }
+    .game-info{ flex:1; }
+    .game-name{ font-family:'Orbitron',sans-serif; font-size:20px; font-weight:700; margin-bottom:5px; background:linear-gradient(90deg,var(--light),var(--secondary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-shadow:0 0 10px rgba(0,168,232,0.2); }
+    .game-about{ font-style:italic; font-size:12px; opacity:0.7; color:var(--light); }
+    .game-type-container{ display:flex; justify-content:space-between; margin-bottom:25px; background:rgba(93,45,158,0.1); border-radius:12px; padding:10px; border:1px solid var(--primary-light); }
+    .game-type{ flex:1; padding:12px 8px; text-align:center; font-family:'Orbitron',sans-serif; font-size:12px; font-weight:600; color:var(--light); border-radius:8px; cursor:pointer; transition:background 0.2s; margin:0 5px; background:rgba(255,255,255,0.05); border:1px solid rgba(93,45,158,0.3); }
+    .game-type.selected{ background:var(--primary); color:#fff; border-color:var(--primary-light); box-shadow:0 0 10px rgba(93,45,158,0.4); }
+    .prediction-container{ background:rgba(18,18,18,0.7); padding:20px; border-radius:15px; margin-bottom:20px; border:1px solid var(--primary-light); box-shadow:0 0 15px rgba(93,45,158,0.1); }
+    .status-dot{ width:8px; height:8px; background:var(--secondary); border-radius:50%; margin-right:12px; box-shadow:0 0 10px var(--secondary); animation:pulse 2s infinite; }
+    @keyframes pulse{ 0%,100%{opacity:0.7;transform:scale(0.95);} 50%{opacity:1;transform:scale(1);} }
+    .input-group{ margin-bottom:20px; position:relative; }
+    .input-group input{ width:100%; padding:14px; background:rgba(0,0,0,0.3); border:1px solid var(--primary-light); border-radius:10px; color:#fff; }
+    .error-message{ position:absolute; bottom:-20px; left:0; color:var(--danger); font-size:11px; opacity:0; transition:opacity 0.2s; }
+    .shake{ animation:shake 0.4s both; }
+    @keyframes shake{ 0%,100%{transform:translateX(0);} 20%,60%{transform:translateX(-5px);} 40%,80%{transform:translateX(5px);} }
+    .flip-card{ width:70px; height:90px; margin:25px auto; perspective:1000px; }
+    .flip-card-inner{ position:relative; width:100%; height:100%; transition:transform 0.4s; transform-style:preserve-3d; border-radius:12px; }
+    .flip-card.flipped .flip-card-inner{ transform:rotateY(180deg); }
+    .flip-card-front, .flip-card-back{ position:absolute; width:100%; height:100%; backface-visibility:hidden; border-radius:12px; display:flex; align-items:center; justify-content:center; border:2px solid rgba(255,255,255,0.15); }
+    .flip-card-front{ background:rgba(30,30,40,0.9); }
+    .flip-card-back{ background:var(--small-color); transform:rotateY(180deg); font-family:'Orbitron',sans-serif; font-weight:800; color:#fff; }
+    .flip-card-back.big{ background:var(--big-color);} .flip-card-back.small{ background:var(--small-color);}  
+    .btn{ width:100%; padding:16px; border:none; border-radius:10px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; margin-bottom:15px; }
+    .btn-primary{ background:linear-gradient(45deg,var(--primary),var(--primary-light)); color:#fff; }
+    .btn-warning{ background:linear-gradient(45deg,var(--warning),#ff9500); color:#000; }
+    .btn-danger{ background:linear-gradient(45deg,var(--danger),#ff1a4a); color:#fff; }
+</style></head>
+<body>
+    <!-- Login Form -->
+    <div id="loginContainer">
+        <h2>Enter Password</h2>
+        <input type="password" id="passwordInput" placeholder="Password...">
+        <button id="loginBtn">Login</button>
+        <div id="loginError">Incorrect password</div>
+    </div><!-- Main Hack Interface -->
+<div id="mainContainer">
+    <div class="container">
+        <div class="winner-container">
+            <div class="winner-text" id="winnerText">User 620****000 Win ₹500</div>
+        </div>
+        <div class="online-users"><i class="fas fa-users"></i><span id="onlineUsers">Online Users: 500</span></div>
+        <div class="game-header">
+            <div class="game-logo"><img src="https://aarish01.sirv.com/AARISH%20MODS/Navi/Jalwa/jalwa.png" alt="Logo"></div>
+            <div class="game-info"><div class="game-name">JalwaWin Hack</div><div class="game-about">Next-generation prediction system</div></div>
+        </div>
+        <div class="game-type-container">
+            <div class="game-type" data-type="30s">WINGO 30s</div>
+            <div class="game-type selected" data-type="1m">WINGO 1m</div>
+            <div class="game-type" data-type="3m">WINGO 3m</div>
+        </div>
+        <div class="prediction-container">
+            <div class="server-status"><div class="status-dot"></div>Server: Active</div>
+            <div class="input-group">
+                <label for="periodNumber">ENTER PERIOD NO:</label>
+                <input type="text" id="periodNumber" placeholder="Enter period number...">
+                <div class="error-message" id="errorMessage">Please enter a period number</div>
+            </div>
+            <div class="flip-card" id="flipCard"><div class="flip-card-inner"><div class="flip-card-front"><i class="fas fa-dice flip-card-icon"></i><div class="flip-card-text">Click Start to predict</div></div><div class="flip-card-back" id="resultCard">--</div></div></div>
+            <button class="btn btn-primary" id="startBtn"><i class="fas fa-play btn-icon"></i>START PREDICTION</button>
+            <div class="warning-text">Make a new Jalwa account to use hack properly.</div>
+            <button class="btn btn-warning" id="registerBtn"><i class="fas fa-user-plus btn-icon"></i>REGISTER NOW!</button>
+            <button class="btn btn-danger" id="telegramBtn"><i class="fab fa-telegram btn-icon"></i>JOIN TELEGRAM</button>
+        </div>
+    </div>
+</div><script>
+    // Password check
+    const loginBtn = document.getElementById('loginBtn');
+    loginBtn.addEventListener('click', () => {
+        const pwd = document.getElementById('passwordInput').value;
+        const error = document.getElementById('loginError');
+        if (pwd === 'FREEMODS') {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('mainContainer').style.display = 'block';
+            requestAnimationFrame(updateWinner);
+            requestAnimationFrame(updateOnlineUsers);
+        } else {
+            error.style.opacity = 1;
+        }
+    });// Winner and Users
+let lastWinnerUpdate = 0, lastUsersUpdate = 0;
+function updateWinner(ts) {
+    if(!lastWinnerUpdate || ts - lastWinnerUpdate >= 2500) {
+        lastWinnerUpdate = ts;
+        const id1 = Math.floor(Math.random()*380)+620;
+        const id2 = Math.floor(Math.random()*1000).toString().padStart(3,'0');
+        const amt = Math.floor(Math.random()*14500)+500;
+        document.getElementById('winnerText').textContent = `User ${id1}****${id2} Win ₹${amt.toLocaleString()}`;
+    }
+    requestAnimationFrame(updateWinner);
+}
+function updateOnlineUsers(ts) {
+    if(!lastUsersUpdate || ts - lastUsersUpdate >= 3000) {
+        lastUsersUpdate = ts;
+        const users = Math.floor(Math.random()*6500)+500;
+        document.getElementById('onlineUsers').textContent = `Online Users: ${users.toLocaleString()}`;
+    }
+    requestAnimationFrame(updateOnlineUsers);
+}document.getElementById('startBtn').addEventListener('click', function(){ const period = document.getElementById('periodNumber').value.trim(); const flip = document.getElementById('flipCard'), res = document.getElementById('resultCard'); const err = document.getElementById('errorMessage'); if(!period) { err.style.opacity=1; return; } err.style.opacity=0; this.disabled=true; this.innerHTML='<i class="fas fa-cog fa-spin btn-icon"></i>PROCESSING...'; if(flip.classList.contains('flipped')) flip.classList.remove('flipped'); setTimeout(()=>{ const big = Math.random()>0.5; res.textContent = big? 'BIG':'SMALL'; res.className = 'flip-card-back '+(big?'big':'small'); setTimeout(()=>{ flip.classList.add('flipped'); this.disabled=false; this.innerHTML='<i class="fas fa-play btn-icon"></i>START PREDICTION'; },800); }, flip.classList.contains('flipped')?400:0); }); document.getElementById('registerBtn').addEventListener('click', ()=> window.open('https://www.Jalwa.cc/#/register?invitationCode=11471656698','_blank')); document.getElementById('telegramBtn').addEventListener('click', ()=> window.open('https://t.me/+BZULc3gHaX9jNzk1','_blank')); document.getElementById('periodNumber').addEventListener('input', ()=> document.getElementById('errorMessage').style.opacity=0);
+
+</script></body>
+
+</html 
+Regenerate link update
+ http://www.tashanwin.in/#/register?invitationCode=44866159215
